@@ -40,3 +40,9 @@ jobs:
       # Build with Gradle
       - name: Build with Gradle
         run: ./gradlew build
+
+        - name: 📦 Upload JAR
+  uses: actions/upload-artifact@v4
+  with:
+    name: fabric-mod-jar
+    path: build/libs/*.jar
