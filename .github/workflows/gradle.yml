@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:  # optional: allows manual run
 
 jobs:
   build:
@@ -22,7 +23,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '21'
-          distribution: 'temurin'  # Corrected distribution name
+          distribution: 'temurin'
 
       # Ensure gradlew is executable
       - name: Make gradlew executable
@@ -39,10 +40,11 @@ jobs:
 
       # Build with Gradle
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace
 
-        - name: 📦 Upload JAR
-  uses: actions/upload-artifact@v4
-  with:
-    name: fabric-mod-jar
-    path: build/libs/*.jar
+      # Upload the built JAR as an artifact
+      - name: 📦 Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: fabric-mod-jar
+          path: build/libs/*.jar
